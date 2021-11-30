@@ -9,7 +9,6 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap:10px 20px;
         }
         #code{
             flex: 1;
@@ -17,8 +16,41 @@
         }
         #blockDiag {
             flex: 1;
-            background-color: indigo;
             order: 2;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            height: 100%;
+            background-color: lightblue;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #blockleft {
+            order: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #blockright{
+            order: 3;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #bus {
+            order: 2;
+            flex: 0.25;
+        }
+        .blkheading {
+            position: relative;
+            top: -1em;
+            font-size: 25px;
+        }
+        .blktext {
+            position: relative;
+            font-size: 20px;
         }
     </style>
 
@@ -26,20 +58,92 @@
         <h1>Heading</h1>
 
         <section id="container1">
-            <form action="{% url 'main:write' %}" method="post">
+            <form id="code" action="{% url 'main:write' %}" method="post">
             {%csrf_token%}
-            <textarea id="code" 
-                name="code"
+            <textarea name="code"
                 rows="20"
+                cols="40"
                 onfocus="this.select()"
                 style="font-size: 20px; font-family: monospace;">
                 write code here
             </textarea>
-            <input type="submit" value="Submit">
+            <input type="submit" name="code" value="OK">
             </form>
 
             <div id="blockDiag">
 
+                <div id="blockleft">
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink;  margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Clock </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Mem address reg </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="position:relative; text-align: center; width:80%; height:80%;  background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> RAM </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Instruction Reg </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Control Unit </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bus">
+                    <div style="width:70%; height: 100%; margin: auto; background-color: blueviolet; writing-mode: vertical-lr; text-orientation: upright;">
+                    <p style="position:relative; top:40%;"> -- BUS -- </p>
+                    </div>
+                </div>
+
+                <div id="blockright">
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Program Counter </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> A-Resister </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> ALU </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> B-Register </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; ">
+                        <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
+                            <p class="blkheading"> Output Register </p>
+                            <p class="blktext"> 00h </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
             <button onclick="view()">Submit</button>
@@ -50,4 +154,5 @@
             var text = elem.value;
         }
     </script>
+
 </html>
