@@ -1,7 +1,7 @@
 
 <html>
     <head>
-        <title>NEW page</title>
+        <title>Basic Computer</title>
     </head>
 
     <style>
@@ -55,7 +55,7 @@
     </style>
 
     <body>
-        <h1>Heading</h1>
+        <h1>heading</h1>
 
         <section id="container1">
             <form id="code" action="{% url 'main:write' %}" method="post">
@@ -153,6 +153,12 @@
             const elem = document.getElementById('code');
             var text = elem.value;
         }
+
+        // getting sequence of events from the backend
+        var text = "{{str|safe}}";              // get json string form backend
+        text = text.split("'").join('"');       // replace ' with " in the string(json.parse works without errors)
+        text = JSON.parse(text);                //convert to json object
+        console.log(text);
     </script>
 
 </html>

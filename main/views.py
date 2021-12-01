@@ -4,9 +4,17 @@ from django.http import HttpResponse
 
 # Create your views here.
 from django import forms
+import json
 
 def index(request):
-    return render(request, "main/index.html")
+    data = ""
+    with open("main/seq.json", "r") as file:
+        data = file.read()
+    data = json.loads(data)
+    data = str(data)
+    return render(request, "main/index.html", {
+        "str": data
+    })
 
 def write(request):
     if request.method == 'POST':
