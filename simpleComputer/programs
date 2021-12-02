@@ -1,0 +1,41 @@
+/**************** Some of the programs that can be executed on this computer ***************/
+~~~~~ to execute, copy any program to program.v file and replace the default add program 
+with it. Then run the program.v file... 
+
+
+
+/******************* program to count up till 0xff and then down to 0x00 ***********/
+//no hlt is used..so it executes a infinite loop..add verilog "$finish" command to
+//stop simulation.....
+
+		bord.rm.mem[4'h0]<= {out,4'h0};
+		bord.rm.mem[4'h1]<= {add,4'hf};
+		bord.rm.mem[4'h2]<= {jc,4'h4};
+		bord.rm.mem[4'h3]<= {jmp,4'h0};
+		bord.rm.mem[4'h4]<= {sub,4'hf};
+		bord.rm.mem[4'h5]<= {out,4'h0};
+		bord.rm.mem[4'h6]<= {jz,4'h0};
+		bord.rm.mem[4'h7]<= {jmp,4'h4};
+		bord.rm.mem[4'hf]<= {8'h01};	
+
+
+/***************** program to multiply 2 numbers at address 0xe and 0xf *************/
+
+		bord.rm.mem[4'hc]<= 8'h01;
+		bord.rm.mem[4'hd]<= 8'h00; //variable product
+		bord.rm.mem[4'he]<= 8'h04; //operand-1
+		bord.rm.mem[4'hf]<= 8'h05; //operand-2
+
+		bord.rm.mem[4'h0]<= {lda,4'he};
+		bord.rm.mem[4'h1]<= {sub,4'hc};
+		bord.rm.mem[4'h2]<= {jc,4'h6};
+		bord.rm.mem[4'h3]<= {lda,4'hd};
+		bord.rm.mem[4'h4]<= {out,4'h0};
+		bord.rm.mem[4'h5]<= {hlt,4'h0};
+		bord.rm.mem[4'h6]<= {sta,4'he};
+		bord.rm.mem[4'h7]<= {lda,4'hd};
+		bord.rm.mem[4'h8]<= {add,4'hf};
+		bord.rm.mem[4'h9]<= {sta,4'hd};
+		bord.rm.mem[4'ha]<= {jmp,4'h0};
+
+	
