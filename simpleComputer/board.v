@@ -53,5 +53,90 @@ module board;
         assign instin[0]= zf;
 	controlunit ctrlunit(instin,hlt,marwa,ramwa,ramoa,inregoa,inregwa,awa,aoa,sumout,sub,bwa,outregwa,pcinc,pcoe,pcjmp,flagsin);
 	
+
+	// printing stuff ....
+	always@(posedge clk)
+	begin
+		$display("#");
+	end
+
+	always @(negedge clk)
+	begin
+		// print A-register trace data
+		if(a.wa) begin
+			$display("aReg r %h", a.data_in);
+		end
+		else if (a.oa) begin
+			$display("aReg w %h", a.store);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print B-register trace data
+		if(b.wa) begin
+			$display("bReg r %h", b.data_in);
+		end
+		else if (b.oa) begin
+			$display("bReg w %h", b.store);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print output-register trace data
+		if(out.wa) begin
+			$display("outReg r %h", out.busin);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print PC register trace data
+		if(pc.inc) begin
+			$display("pc r %b", pc.store + 1'b1);
+		end
+		else if(pc.jmp) begin
+			$display("pc r %b", pc.in);
+		end
+		else if (pc.oe) begin
+			$display("pc w %b", pc.store);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print memory address register trace data
+		if(mar.wa) begin
+			$display("mar r %h", mar.busin);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print instruction register trace data
+		if(instructionreg.wa) begin
+			$display("instReg r %h", instructionreg.busin);
+		end
+		else if (instructionreg.oa) begin
+			$display("instReg w %h", instructionreg.store);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print RAM trace data
+		if(rm.wa) begin
+			$display("ram r [%h] <- %h", rm.addr, rm.bus);
+		end
+		else if (instructionreg.oa) begin
+			$display("ram w [%h] -> %h", rm.addr, rm.bus);
+		end
+	end
+	always @(negedge clk)
+	begin
+		// print ALU trace data
+		if(alunit.sumout) begin
+			$display("alu res:%h sub:%b cf:%b zf:%b", alunit.out, alunit.sub, alunit.carryflg, alunit.zeroflg);
+		end
+		else if (alunit.flagsin) begin
+			$display("alu res:%h sub:%b cf:%b zf:%b", alunit.out, alunit.sub, alunit.carryflg, alunit.zeroflg);
+		end
+	end
+
 	endmodule
 

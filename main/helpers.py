@@ -44,7 +44,8 @@ def assemble(infile:str):
                 outfl.write(f"bord.rm.mem[4'h{inst[2]}] <= 8'h{inst[1]};\n")
             else:
                 try:
-                    outfl.write(f"bord.rm.mem[{ipcount}] <= {{{opcode[inst[0]]}, 4'h{inst[1]}}};\n")
+                    outfl.write(f"bord.rm.mem[4'h{'{:x}'.format(ipcount)}] <= {{{opcode[inst[0]]}, 4'h{inst[1]}}};\n")
+                    ipcount += 1            # increment the address to load next
                 except:
                     # not a valid instruction!!
                     return -1   # unsuccessful transform (wrong syntax)

@@ -41,10 +41,6 @@
 		$dumpvars(0,program);
 	end
 
-	always@ (bord.display)
-	begin
-		$display("out=  %h",bord.display);
-	end
 
 	endmodule
 	

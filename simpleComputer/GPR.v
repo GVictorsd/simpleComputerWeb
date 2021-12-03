@@ -23,4 +23,16 @@
 
 	assign data_out= oa? store: 8'hzz;
 
+	// printind tracing stuff
+	// parameter name = " ";
+	// always @(negedge clk)
+	// begin
+	// 	if(wa) begin
+	// 		$display("%s r %h", name, data_in);
+	// 	end
+	// 	else if (oa) begin
+	// 		$display("%s w %h", name, store);
+	// 	end
+	// end
+
 	endmodule
