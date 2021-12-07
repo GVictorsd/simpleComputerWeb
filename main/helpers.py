@@ -3,7 +3,7 @@
 # Some helper functions for the main program
 ##############
 
-def assemble(infile:str):
+def assemble(infile:str, outfilepath:str):
     # dict to map mnenomics to opcodes
     opcode = {
         "nop": "4'h0",
@@ -19,14 +19,14 @@ def assemble(infile:str):
         "hlt": "4'hf"
     }
     
-    outfile = "programee.v" # output file for the verilog modules
+    outfile = outfilepath # output file for the verilog modules
     code = []
     ipcount = 0             # current memory address to load the inst into memory
     
     # some useful strings
     startstr = '`timescale 10ns/1ns\n`include "board.v"\nmodule program;\nboard bord();\nreg[7:0] Buss;\nreg[3:0] addr;\nreg clr,ramoa,ramwa;\n'
     resetstr = 'assign bord.hlt=0;\ninitial\nbegin\nbord.clr <= 1;\n#4 bord.clr <= 0;\n'
-    endstr = 'end\nalways@(bord.display)\nbegin\n$display("out= %h",bord.display);\nend\nendmodule'
+    endstr = 'end\ninitial begin\n#200 $finish;\nend\nendmodule'
 
     with open(outfile, "w") as outfl:
         # boilerplate code...

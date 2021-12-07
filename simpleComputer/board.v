@@ -55,12 +55,12 @@ module board;
 	
 
 	// printing stuff ....
-	always@(posedge clk)
+	always@(negedge clk)
 	begin
 		$display("#");
 	end
 
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print A-register trace data
 		if(a.wa) begin
@@ -70,7 +70,7 @@ module board;
 			$display("aReg w %h", a.store);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print B-register trace data
 		if(b.wa) begin
@@ -80,14 +80,14 @@ module board;
 			$display("bReg w %h", b.store);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print output-register trace data
 		if(out.wa) begin
 			$display("outReg r %h", out.busin);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print PC register trace data
 		if(pc.inc) begin
@@ -100,14 +100,14 @@ module board;
 			$display("pc w %b", pc.store);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print memory address register trace data
 		if(mar.wa) begin
 			$display("mar r %h", mar.busin);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print instruction register trace data
 		if(instructionreg.wa) begin
@@ -117,17 +117,17 @@ module board;
 			$display("instReg w %h", instructionreg.store);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print RAM trace data
 		if(rm.wa) begin
-			$display("ram r [%h] <- %h", rm.addr, rm.bus);
+			$display("ram r [%h] %h", rm.addr, rm.bus);
 		end
-		else if (instructionreg.oa) begin
-			$display("ram w [%h] -> %h", rm.addr, rm.bus);
+		else if (rm.oa) begin
+			$display("ram w [%h] %h", rm.addr, rm.bus);
 		end
 	end
-	always @(negedge clk)
+	always @(posedge clk)
 	begin
 		// print ALU trace data
 		if(alunit.sumout) begin

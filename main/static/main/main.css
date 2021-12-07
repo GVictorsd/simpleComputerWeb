@@ -1,0 +1,58 @@
+/************************************
+* style sheet for index.html 
+ ************************************/
+
+#container1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#code{
+    flex: 1;
+    order: 1;
+}
+
+#blockDiag {
+    flex: 1;
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 100%;
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#blockleft {
+    order: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#blockright{
+    order: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#bus {
+    order: 2;
+    flex: 0.25;
+}
+
+.blkheading {
+    position: relative;
+    top: -1em;
+    font-size: 25px;
+}
+
+.blktext {
+    position: relative;
+    font-size: 20px;
+}

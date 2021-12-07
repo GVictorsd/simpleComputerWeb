@@ -1,58 +1,11 @@
+{% load static %}
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>Basic Computer</title>
+        <link href="{% static 'main/main.css' %}" rel="stylesheet" type="text/css">
     </head>
-
-    <style>
-        #container1 {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-        }
-        #code{
-            flex: 1;
-            order: 1;
-        }
-        #blockDiag {
-            flex: 1;
-            order: 2;
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            height: 100%;
-            background-color: lightblue;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        #blockleft {
-            order: 1;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        #blockright{
-            order: 3;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        #bus {
-            order: 2;
-            flex: 0.25;
-        }
-        .blkheading {
-            position: relative;
-            top: -1em;
-            font-size: 25px;
-        }
-        .blktext {
-            position: relative;
-            font-size: 20px;
-        }
-    </style>
 
     <body>
         <h1>heading</h1>
@@ -61,44 +14,42 @@
             <form id="code" action="{% url 'main:write' %}" method="post">
             {%csrf_token%}
             <textarea name="code"
-                rows="20"
-                cols="40"
+                rows="26"
+                cols="50"
                 onfocus="this.select()"
-                style="font-size: 20px; font-family: monospace;">
-                write code here
-            </textarea>
-            <input type="submit" >
+                style="font-size: 20px; font-family: monospace;"><-- code goes here --></textarea>
+                <br><br>
+            <input type="submit" value="Submit">
             </form>
 
             <div id="blockDiag">
 
                 <div id="blockleft">
-                    <div style="flex: 1; ">
+                    <div id="clk" style="flex: 1;">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink;  margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Clock </p>
                             <p class="blktext"> 00h </p>
                         </div>
-
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="mar" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Mem address reg </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1;">
+                    <div id="ram" style="flex: 1;">
                         <div style="position:relative; text-align: center; width:80%; height:80%;  background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> RAM </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="ir" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Instruction Reg </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="cu" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Control Unit </p>
                             <p class="blktext"> 00h </p>
@@ -113,31 +64,31 @@
                 </div>
 
                 <div id="blockright">
-                    <div style="flex: 1; ">
+                    <div id="pc" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Program Counter </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="areg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> A-Resister </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="alu" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> ALU </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="breg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> B-Register </p>
                             <p class="blktext"> 00h </p>
                         </div>
                     </div>
-                    <div style="flex: 1; ">
+                    <div id="outreg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Output Register </p>
                             <p class="blktext"> 00h </p>
@@ -146,13 +97,26 @@
                 </div>
             </div>
         </section>
-            <button onclick="view()">Submit</button>
+
     </body>
+
     <script>
-        function view(){
+        function getCode(){
+            // gets code from the input text field
             const elem = document.getElementById('code');
             var text = elem.value;
         }
+        
+        function highlightBlk(blockid, prop) {
+            // function to highlight a block
+            var prevProp;
+            const elem = document.getElementById(blockid).firstElementChild;
+            prevProp = [elem.style.border, elem.style.backgroundColor];
+            elem.style.border = prop[0];
+            elem.style.backgroundColor = prop[1];
+            return prevProp;
+        }
+
 
         // getting sequence of events from the backend
         var text = "{{str|safe}}";              // get json string form backend
