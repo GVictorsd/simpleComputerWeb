@@ -1,3 +1,4 @@
+from django.http import response
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -6,24 +7,25 @@ from django.http import HttpResponse
 # imports
 from django import forms
 import json
-from main.helpers import assemble
+from main.helpers import assemble, outToJson
 import os
 import subprocess
 
 def index(request):
-    # main route
-    # code to send json data to the frontend
-    data = ""
-    with open("main/seq.json", "r") as file:
-        data = file.read()
-    data = json.loads(data)
-    data = str(data)
-    return render(request, "main/index.html", {
-        "str": data
+    '''
+    main route
+    code to send json data to the frontend
+    '''
+
+    return render(request, "main/index.html",{
+        "codein" : True
     })
 
 def write(request):
-    # route to get code, process and run it with in the verilog module
+    '''
+    route to get code, process and run it with in the verilog module
+    '''
+
     if request.method == 'POST':
         filename = "assemblycode.asm"       # auxilary file to store instructions
         outfilepath = "simpleComputer/program.v"
@@ -41,9 +43,33 @@ def write(request):
         os.system(f'iverilog -I simpleComputer -o simpleComputer/a.out simpleComputer/program.v')
         # os.system(f'vvp simpleComputer/a.out | python3 simpleComputer/processop.py')
 
-        temp = subprocess.Popen(['vvp', 'simpleComputer/a.out'], stdout = subprocess.PIPE) 
-        op = str(temp.communicate()) 
-        print(op)
-        return HttpResponseRedirect("/main/")
+
+        returnfile = 'process.json'     # file which will hold resulting json data which will be sent back to the interface
+
+        # run the out file from previous step using vvp and write the result to a file for next step
+        os.system(f'vvp simpleComputer/a.out > jsoninput.txt')
+        # convert the raw data from previous step to json format.
+        outToJson('jsoninput.txt', returnfile)
+
+
+        # read the json file and convert the data to json object
+        jsondata = ""
+        with open(returnfile, "r") as file:
+            jsondata = file.read()
+
+        jsondata = json.loads(jsondata)
+        jsondata = str(jsondata)
+
+        # assembly code entered by the user...
+        asmcode = ""
+        with open("assemblycode.asm", "r") as file:
+            asmcode = file.read()
+
+        return render(request, "main/index.html", {
+            "codein" : False,               # set state(not taking any input, displaying the output)
+            "jsondata": jsondata,           # json data containing execution sequence
+            "asmcode": asmcode              # code entered by the user
+        })
+        
     else:
         return Http404

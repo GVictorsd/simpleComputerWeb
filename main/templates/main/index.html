@@ -11,6 +11,9 @@
         <h1>heading</h1>
 
         <section id="container1">
+
+            {% if codein %}
+            <!-- display this if we need to get code from the input text area -->
             <form id="code" action="{% url 'main:write' %}" method="post">
             {%csrf_token%}
             <textarea name="code"
@@ -21,6 +24,19 @@
                 <br><br>
             <input type="submit" value="Submit">
             </form>
+
+            {% else %}
+            <!-- display this part if code is submitted through input -->
+            <section id="codeblock">
+
+            <div id="codedisplay" style="width:650px; height:650px ; background-color: lightpink; line-height: 0.5ch;"></div>
+
+            <br><br>
+            <a href="/main/">
+            <div style="width: 40px; height: 20px; background-color: mediumspringgreen;">back</div></a>
+
+            </section>
+            {% endif %}
 
             <div id="blockDiag">
 
@@ -119,10 +135,28 @@
 
 
         // getting sequence of events from the backend
-        var text = "{{str|safe}}";              // get json string form backend
+        var text = "{{jsondata|safe}}";              // get json string from backend
         text = text.split("'").join('"');       // replace ' with " in the string(json.parse works without errors)
         text = JSON.parse(text);                //convert to json object
-        console.log(text);
+
+        // element to insert processed sequence
+        const codeblk = document.getElementById("codedisplay");
+
+        // append each element of the json object into the block
+        for(var i in text.process){
+            for(var stage in text.process[i]){
+                var strtxt = text.process[i][stage];
+                const codetxt = document.createElement("p");
+                const node = document.createTextNode(strtxt);
+                codetxt.appendChild(node);
+                codeblk.appendChild(codetxt);
+            }
+        }
+
+        // insert code entered by the user
+        var asmcode = "{{asmcode}}";
+        const node = document.createTextNode(asmcode);
+        codeblk.appendChild(node);
     </script>
 
 </html>

@@ -2,4 +2,6 @@ main/__pycache__/*.pyc
 *.pyc
 *.asm
 *.json
+*.txt
+*.out
 .env
