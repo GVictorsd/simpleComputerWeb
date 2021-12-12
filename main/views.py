@@ -18,7 +18,7 @@ def index(request):
     '''
 
     return render(request, "main/index.html",{
-        "codein" : True
+        "codein" : 1
     })
 
 def write(request):
@@ -64,12 +64,14 @@ def write(request):
         asmcode = ""
         with open("assemblycode.asm", "r") as file:
             asmcode = file.read()
+        
+        asmcode = json.dumps({
+            "asmcode": asmcode
+        })
 
         return render(request, "main/index.html", {
-            "codein" : False,               # set state(not taking any input, displaying the output)
+            "codein" : 0,               # set state(not taking any input, displaying the output)
             "jsondata": jsondata,           # json data containing execution sequence
             "asmcode": asmcode              # code entered by the user
         })
         
-    else:
-        return Http404
