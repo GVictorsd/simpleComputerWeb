@@ -29,7 +29,7 @@
             <!-- display this part if code is submitted through input -->
             <section id="codeblock">
 
-            <div id="codedisplay" style="width:650px; height:650px ;  line-height: 0.5ch;"></div>
+            <div id="codedisplay" style="width:650px; height:650px ;  line-height: 0.5ch; overflow: scroll;"></div>
 
             <br><br>
             <button onclick="next()"> next </button>
@@ -76,7 +76,7 @@
 
                 <div id="bus">
                     <div style="width:70%; height: 100%; margin: auto; background-color: blueviolet; writing-mode: vertical-lr; text-orientation: upright;">
-                    <p style="position:relative; top:40%;"> -- BUS -- </p>
+                    <p style="position:relative; top:40%;"> || BUS || </p>
                     </div>
                 </div>
 
@@ -126,28 +126,57 @@
         
         function highlightBlk(blockid, prop) {
             // function to highlight a block
-            var prevProp;
-            const elem = document.getElementById(blockid).firstElementChild;
-            prevProp = [elem.style.border, elem.style.backgroundColor];
+            // var prevProp;
+            // const elem = document.getElementById(blockid).firstElementChild;
+            const elem = document.getElementById(blockid);
+            // prevProp = [elem.style.border, elem.style.backgroundColor];
             elem.style.border = prop[0];
             elem.style.backgroundColor = prop[1];
-            return prevProp;
+            // return prevProp;
         }
 
         var currcycle = 0;      // variable to hold the current state being executed(json index)
+        var currInstBlk;
+        var instBlkStack = [];
         function next(){
-            // returns the next operations to be performed
-            // called when the next button is pressed
+            /*
+                returns the next operations to be performed
+                called when the next button is pressed
+            */
 
-            if(currcycle >= Object.keys(text.process) ){
-                // all operations done. do nothing
+            if(currcycle == 0) {
+                // if its the first time, initialize the variable to first element
+                currInstBlk = document.getElementById("codedisplay").firstElementChild;
+            }
+
+            else if(currcycle + 1 >= Object.keys(text.process).length ){
+                // if all operations done, do nothing
+                console.log("done");
                 return;
             }
 
             // else get next operation from the json object and return it
             currcycle++;
+
+            currInstBlk.style.backgroundColor = "";             // unset background color of current block
+            currInstBlk = currInstBlk.nextElementSibling;       // get next block
+            currInstBlk.style.backgroundColor = "hotpink";      // and highlight it
+
+            while(instBlkStack.length > 0){
+                var elem = instBlkStack.pop();
+                highlightBlk(elem, ["", ""]);
+            }
+
+            // printing next set of instructions
             for(var elem in text.process[currcycle]){
                 console.log(text.process[currcycle][elem]);
+
+                // de-highlight current active blocks
+                var instStr = text.process[currcycle][elem];
+                instStr = instStr.split(" ")
+                var activeBlk = document.getElementById(instStr[0]);
+                instBlkStack.push(activeBlk);
+                highlightBlk(activeBlk, ["pink", "blue"]);
             }
         }
 
@@ -160,13 +189,16 @@
 
             const codeblk = document.getElementById("codedisplay");
             for(var i in text.process){
+                const cycleDiv = document.createElement("div");
+                cycleDiv.style.padding = "4px";
                 for(var stage in text.process[i]){
                     var strtxt = text.process[i][stage];
                     const codetxt = document.createElement("p");
                     const node = document.createTextNode(strtxt);
                     codetxt.appendChild(node);
-                    codeblk.appendChild(codetxt);
+                    cycleDiv.appendChild(codetxt);
                 }
+                codeblk.appendChild(cycleDiv);
             }
 
             // var asmcode = "{{asmcode}}";

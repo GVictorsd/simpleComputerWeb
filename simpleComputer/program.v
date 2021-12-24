@@ -11,7 +11,6 @@ begin
 bord.clr <= 1;
 #4 bord.clr <= 0;
 bord.rm.mem[4'h0] <= {4'h2, 4'hf};
-bord.rm.mem[4'h1] <= {4'h3, 4'ha};
 end
 initial
 begin
