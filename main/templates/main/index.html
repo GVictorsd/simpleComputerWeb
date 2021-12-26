@@ -45,31 +45,31 @@
                     <div id="clk" style="flex: 1;">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink;  margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Clock </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext"> _|‾|_|‾ </p>
                         </div>
                     </div>
                     <div id="mar" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Mem address reg </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="marVal"> 00h </p>
                         </div>
                     </div>
                     <div id="ram" style="flex: 1;">
                         <div style="position:relative; text-align: center; width:80%; height:80%;  background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> RAM </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="ramVal"> 00h </p>
                         </div>
                     </div>
-                    <div id="ir" style="flex: 1; ">
+                    <div id="instReg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Instruction Reg </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="instRegVal"> 00h </p>
                         </div>
                     </div>
                     <div id="cu" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Control Unit </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="cuVal"> 00h </p>
                         </div>
                     </div>
                 </div>
@@ -84,31 +84,31 @@
                     <div id="pc" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Program Counter </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="pcVal"> 00h </p>
                         </div>
                     </div>
-                    <div id="areg" style="flex: 1; ">
+                    <div id="aReg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> A-Resister </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="aRegVal"> 00h </p>
                         </div>
                     </div>
                     <div id="alu" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> ALU </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="aluVal"> 00h (+)</p>
                         </div>
                     </div>
-                    <div id="breg" style="flex: 1; ">
+                    <div id="bReg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> B-Register </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="bRegVal"> 00h </p>
                         </div>
                     </div>
-                    <div id="outreg" style="flex: 1; ">
+                    <div id="outReg" style="flex: 1; ">
                         <div style="position:relative; text-align: center; width:80%; height:80%; background-color:pink; margin:auto; border:1px solid gray; line-height: 0px;">
                             <p class="blkheading"> Output Register </p>
-                            <p class="blktext"> 00h </p>
+                            <p class="blktext" id="outRegVal"> 00h </p>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,8 @@
             // function to highlight a block
             // var prevProp;
             // const elem = document.getElementById(blockid).firstElementChild;
-            const elem = document.getElementById(blockid);
+            // const elem = document.getElementById(blockid);
+            const elem = blockid;
             // prevProp = [elem.style.border, elem.style.backgroundColor];
             elem.style.border = prop[0];
             elem.style.backgroundColor = prop[1];
@@ -173,10 +174,24 @@
 
                 // de-highlight current active blocks
                 var instStr = text.process[currcycle][elem];
-                instStr = instStr.split(" ")
+                instStr = instStr.split(" ");
                 var activeBlk = document.getElementById(instStr[0]);
                 instBlkStack.push(activeBlk);
-                highlightBlk(activeBlk, ["pink", "blue"]);
+
+                if(instStr[1] == "r"){
+                    // update the value of the block
+                    const textValue = document.getElementById(instStr[0] + "Val");
+                    textValue.innerHTML = instStr[2];
+                    // highlight the block as being read
+                    highlightBlk(activeBlk, ["lightblue", "red"]);
+                }
+                else if(instStr[1] == "w") {
+                    // get value of the block and update it
+                    const textValue = document.getElementById(instStr[0] + "Val");
+                    textValue.innerHTML = instStr[2];
+                    // highlight the block as being writen
+                    highlightBlk(activeBlk, ["hotpink", "green"]);
+                }
             }
         }
 

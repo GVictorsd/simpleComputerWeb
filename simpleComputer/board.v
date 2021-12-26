@@ -117,6 +117,7 @@ module board;
 			$display("instReg w %h", instructionreg.store);
 		end
 	end
+
 	always @(posedge clk)
 	begin
 		// print RAM trace data
