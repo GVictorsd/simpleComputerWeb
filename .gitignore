@@ -1,7 +1,7 @@
 main/__pycache__/*.pyc
+__pycache__
 *.pyc
 *.asm
 *.json
-*.txt
 *.out
 .env
